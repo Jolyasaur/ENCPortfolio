@@ -1,0 +1,608 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ENC Prints and Crafts</title>
+    <!-- Favicon -->
+    <link rel="icon" type="image/x-icon" href="favicon/favicon.ico">
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- React and ReactDOM -->
+    <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <!-- Babel for JSX -->
+    <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
+    
+    <!-- Custom CSS -->
+    <style>
+        :root {
+            --primary-color: #ffffff;
+            --text-color: #1a1a1a;
+            --border-color: #edf2f7;
+            --muted-color: #718096;
+            --hover-color: #2d3748;
+        }
+
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            color: var(--text-color);
+            background-color: var(--primary-color);
+        }
+
+        /* Navbar */
+        .navbar {
+            background: rgba(255, 255, 255, 0.95) !important;
+            padding: 1rem 0;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.02);
+        }
+
+        .navbar-brand img {
+            height: 45px;
+            border-radius: 8px;
+        }
+
+        .navbar-nav {
+            gap: 0.5rem;
+        }
+
+        .nav-link {
+            font-size: 0.9rem;
+            font-weight: 600;
+            letter-spacing: 0.3px;
+            padding: 0.6rem 1rem !important;
+            border-radius: 8px;
+            color: var(--text-color) !important;
+            transition: all 0.3s ease;
+        }
+
+        .nav-link:hover {
+            background-color: rgba(0, 0, 0, 0.03);
+            transform: translateY(-1px);
+        }
+
+        /* Update the navbar toggler for mobile */
+        .navbar-toggler {
+            border: none;
+            padding: 0.5rem;
+        }
+
+        .navbar-toggler:focus {
+            box-shadow: none;
+            outline: none;
+        }
+
+        /* Add responsive adjustments */
+        @media (max-width: 991px) {
+            .navbar-collapse {
+                background: white;
+                padding: 1rem;
+                border-radius: 12px;
+                margin-top: 1rem;
+                box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+            }
+            
+            .navbar-nav {
+                gap: 0.25rem;
+            }
+        }
+
+        /* Project & Feedback Cards */
+        .project-card, .feedback-card {
+            border-radius: 12px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.02);
+            border: 1px solid var(--border-color);
+            overflow: hidden;
+            transition: transform 0.3s ease;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+            margin-bottom: 30px;
+        }
+
+        .project-image, .feedback-image {
+            width: 100%;
+            height: 320px;
+            object-fit: cover;
+        }
+
+        .project-card:hover, .feedback-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Sections */
+        section {
+            padding: 6rem 0;
+        }
+
+        section h2 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: #1e293b;
+            margin-bottom: 3rem;
+            text-align: center;
+            background: none;
+            -webkit-text-fill-color: initial;
+        }
+
+        section h2::after {
+            display: none;
+        }
+
+        /* Footer */
+        footer {
+            background-color: var(--primary-color);
+            padding: 5rem 0 2rem;
+            position: relative;
+            overflow: hidden;
+            border-top: 1px solid var(--border-color);
+        }
+
+        footer::before {
+            display: none;
+        }
+
+        footer h5 {
+            font-size: 1rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 1.5rem;
+            position: relative;
+            display: inline-block;
+        }
+
+        footer h5::after {
+            display: none;
+        }
+
+        footer ul li {
+            margin-bottom: 1rem;
+        }
+
+        footer a {
+            color: var(--muted-color);
+            text-decoration: none;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            font-size: 0.95rem;
+        }
+
+        footer a:hover {
+            color: var(--hover-color);
+            transform: translateX(3px);
+        }
+
+        footer .contact-info li {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: var(--muted-color);
+            font-size: 0.95rem;
+            margin-bottom: 1rem;
+        }
+
+        .footer-bottom {
+            padding-top: 2rem;
+            margin-top: 3rem;
+            text-align: center;
+            position: relative;
+            border-top: 1px solid var(--border-color);
+        }
+
+        .footer-bottom::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 15%;
+            right: 15%;
+            height: 1px;
+            background: linear-gradient(to right, transparent, #e2e8f0, transparent);
+        }
+
+        /* Add this to your CSS section */
+        #home {
+            background: url('images/header.jpg');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            position: relative;
+        }
+
+        /* Remove or comment out this entire #home::before block */
+        /* #home::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(5px);
+        } */
+
+        #home .container {
+            position: relative;
+            z-index: 1;
+        }
+
+        .social-links a {
+            width: 38px;
+            height: 38px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            border: 1px solid var(--border-color);
+            border-radius: 50%;
+            color: var(--text-color);
+            transition: all 0.3s ease;
+        }
+
+        .social-links a:hover {
+            background-color: var(--text-color);
+            color: var(--primary-color);
+            transform: translateY(-3px);
+        }
+
+        .footer-bottom p {
+            font-size: 0.9rem;
+            color: var(--muted-color);
+        }
+
+        /* Update the services styles in your CSS section */
+        .services-container {
+            position: relative;
+            overflow: hidden;
+            padding: 3rem 0;
+            background: white;
+        }
+
+        .services-belt {
+            display: flex;
+            animation: scroll 60s linear infinite;
+            width: max-content;
+            gap: 2rem;
+        }
+
+        .service-item {
+            min-width: 280px;
+            background: white;
+            padding: 2rem;
+            border-radius: 20px;
+            transition: all 0.4s ease;
+            margin-right: 1rem;
+            position: relative;
+            box-shadow: 0 2px 20px rgba(0, 0, 0, 0.03);
+            border: 1px solid #f1f5f9;
+        }
+
+        /* Remove the gradient line at top */
+        .service-item::before {
+            display: none;
+        }
+
+        /* Colorful icons */
+        .service-item i {
+            font-size: 2.2rem;
+            margin-bottom: 1.2rem;
+            display: block;
+            transition: all 0.3s ease;
+        }
+
+        /* Icon colors */
+        .service-item:nth-child(5n+1) i { color: #3b82f6; }  /* Blue */
+        .service-item:nth-child(5n+2) i { color: #10b981; }  /* Green */
+        .service-item:nth-child(5n+3) i { color: #f59e0b; }  /* Orange */
+        .service-item:nth-child(5n+4) i { color: #8b5cf6; }  /* Purple */
+        .service-item:nth-child(5n+5) i { color: #ef4444; }  /* Red */
+
+        .service-item h5 {
+            font-size: 1rem;
+            font-weight: 600;
+            color: #334155;
+            margin: 0;
+        }
+
+        .service-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
+            background: #fafafa;
+        }
+
+        .service-item:hover i {
+            transform: scale(1.1) rotate(-5deg);
+        }
+
+        .services-container::before,
+        .services-container::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            width: 200px;
+            z-index: 2;
+            pointer-events: none;
+        }
+
+        .services-container::before {
+            left: 0;
+            background: linear-gradient(to right, white, transparent);
+        }
+
+        .services-container::after {
+            right: 0;
+            background: linear-gradient(to left, white, transparent);
+        }
+
+        /* Update services section background */
+        #services {
+            background: white;
+        }
+
+        /* Update section heading for services */
+        #services h2 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: #1e293b;
+            margin-bottom: 3rem;
+            background: none;
+            -webkit-text-fill-color: initial;
+        }
+
+        #services h2::after {
+            display: none;
+        }
+
+        /* Update animation for smoother scroll */
+        @keyframes scroll {
+            0% {
+                transform: translateX(0);
+            }
+            100% {
+                transform: translateX(calc(-50% - 1rem));
+            }
+        }
+
+        /* Update specific section backgrounds */
+        #projects, #feedback {
+            background: white;
+        }
+
+        #feedback.bg-light {
+            background-color: white !important;
+        }
+    </style>
+
+    <!-- Add this in the head section -->
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700&display=swap" rel="stylesheet">
+    <!-- Add this in the head section, after Bootstrap CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+</head>
+<body>
+    <div id="root"></div>
+
+    <script type="text/babel">
+        function Portfolio() {
+            const projects = [
+                { image: 'projects/1.jpg' },
+                { image: 'projects/2.jpg' },
+                { image: 'projects/id.jpg' },
+                { image: 'projects/wow.jpg' },
+                { image: 'projects/bini.jpg' }
+            ];
+
+            const feedbacks = [
+                { image: 'feedbacks/feedback1.jpg' },
+                { image: 'feedbacks/feedback2.jpg' },
+                { image: 'feedbacks/feedback3.jpg' },
+                { image: 'feedbacks/feedback4.jpg' },
+                { image: 'feedbacks/feedback5.jpg' },
+                { image: 'feedbacks/feedback6.jpg' }
+            ];
+
+            const services = [
+                { title: "Document printing", icon: "bi-printer" },
+                { title: "Photo printing", icon: "bi-image" },
+                { title: "Photocopy", icon: "bi-files" },
+                { title: "Scan", icon: "bi-scanner" },
+                { title: "Lamination", icon: "bi-layers" },
+                { title: "Sintra board", icon: "bi-clipboard2" },
+                { title: "Product labels", icon: "bi-tag" },
+                { title: "Brochures", icon: "bi-journal-text" },
+                { title: "Calling card", icon: "bi-person-vcard" },
+                { title: "Business card", icon: "bi-briefcase" },
+                { title: "Loyalty card", icon: "bi-award" },
+                { title: "Thank you card", icon: "bi-envelope-heart" },
+                { title: "Typing", icon: "bi-keyboard" },
+                { title: "Money garland", icon: "bi-cash-coin" },
+                { title: "Invitation", icon: "bi-envelope-paper" },
+                { title: "Ref magnet", icon: "bi-magnet" },
+                { title: "Keychain", icon: "bi-key" },
+                { title: "Tracing pad for kids", icon: "bi-pencil" },
+                { title: "Coloring book for kids", icon: "bi-palette" },
+                { title: "Vinyl stickers", icon: "bi-stars" },
+                { title: "Subject label stickers", icon: "bi-bookmark" },
+                { title: "Name tag", icon: "bi-person-badge" },
+                { title: "Photocards", icon: "bi-card-image" },
+                { title: "PVC ID", icon: "bi-person-badge-fill" },
+                { title: "ID pictures", icon: "bi-camera" },
+                { title: "Basic video editing", icon: "bi-film" },
+                { title: "Others", icon: "bi-three-dots" }
+            ];
+
+            const ProjectCard = ({ project }) => (
+                <div className="col-md-4">
+                    <div className="project-card">
+                        <img src={project.image} alt="Project" className="project-image" />
+                    </div>
+                </div>
+            );
+
+            const FeedbackCard = ({ feedback }) => (
+                <div className="col-md-4">
+                    <div className="feedback-card">
+                        <img src={feedback.image} alt="Customer Feedback" className="feedback-image" />
+                    </div>
+                </div>
+            );
+
+            const ServiceItem = ({ service }) => (
+                <div className="service-item">
+                    <i className={`bi ${service.icon}`}></i>
+                    <h5>{service.title}</h5>
+                </div>
+            );
+
+            return (
+                <div>
+                    <nav className="navbar navbar-expand-lg fixed-top">
+                        <div className="container">
+                            <a className="navbar-brand" href="#">
+                                <img src="images/enc logo.jpg" alt="Logo" />
+                            </a>
+                            <button 
+                                className="navbar-toggler" 
+                                type="button" 
+                                data-bs-toggle="collapse" 
+                                data-bs-target="#navbarNav"
+                                aria-controls="navbarNav"
+                                aria-expanded="false"
+                                aria-label="Toggle navigation"
+                            >
+                                <span className="navbar-toggler-icon"></span>
+                            </button>
+                            <div className="collapse navbar-collapse justify-content-end" id="navbarNav">
+                                <ul className="navbar-nav align-items-center">
+                                    <li className="nav-item">
+                                        <a className="nav-link" href="#home">Home</a>
+                                    </li>
+                                    <li className="nav-item">
+                                        <a className="nav-link" href="#services">Services</a>
+                                    </li>
+                                    <li className="nav-item">
+                                        <a className="nav-link" href="#projects">Projects</a>
+                                    </li>
+                                    <li className="nav-item">
+                                        <a className="nav-link" href="#feedback">Feedback</a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </nav>
+
+                    <section id="home" className="min-vh-100 d-flex align-items-center">
+                        <div className="container text-center">
+                        </div>
+                    </section>
+
+                    <section id="services">
+                        <div className="container">
+                            <h2>Our Services</h2>
+                        </div>
+                        <div className="services-container">
+                            <div className="services-belt">
+                                {/* First set of services */}
+                                {services.map((service, index) => (
+                                    <ServiceItem key={`first-${index}`} service={service} />
+                                ))}
+                                {/* Duplicate set for seamless loop */}
+                                {services.map((service, index) => (
+                                    <ServiceItem key={`second-${index}`} service={service} />
+                                ))}
+                            </div>
+                        </div>
+                    </section>
+
+                    <section id="projects">
+                        <div className="container">
+                            <h2>Our Projects</h2>
+                            <div className="row g-4">
+                                {projects.map((project, index) => (
+                                    <ProjectCard key={index} project={project} />
+                                ))}
+                            </div>
+                        </div>
+                    </section>
+
+                    <section id="feedback" className="bg-light">
+                        <div className="container">
+                            <h2>Customer Feedback</h2>
+                            <div className="row g-4">
+                                {feedbacks.map((feedback, index) => (
+                                    <FeedbackCard key={index} feedback={feedback} />
+                                ))}
+                            </div>
+                        </div>
+                    </section>
+
+                    <footer>
+                        <div className="container">
+                            <div className="row g-5">
+                                <div className="col-lg-5">
+                                    <img src="images/enc logo.jpg" alt="Logo" height="35" className="mb-4" />
+                                    <p className="text-muted mb-4" style={{lineHeight: '1.8'}}>
+                                        We specialize in creating unique and personalized designs that capture 
+                                        your vision. Our commitment to quality and creativity ensures your 
+                                        satisfaction with every project.
+                                    </p>
+                                    <div className="social-links d-flex gap-2">
+                                        <a href="https://www.facebook.com/enc.printsandcrafts" className="social-link" target="_blank">
+                                            <i className="bi bi-facebook"></i>
+                                        </a>
+                                        <a href="https://www.instagram.com/enc.printsandcrafts" className="social-link" target="_blank">
+                                            <i className="bi bi-instagram"></i>
+                                        </a>
+                                        <a href="#" className="social-link">
+                                            <i className="bi bi-tiktok"></i>
+                                        </a>
+                                    </div>
+                                </div>
+                                <div className="col-lg-3 offset-lg-1">
+                                    <h5>Quick Links</h5>
+                                    <ul className="list-unstyled">
+                                        <li><a href="#home">→ Home</a></li>
+                                        <li><a href="#services">→ Services</a></li>
+                                        <li><a href="#projects">→ Projects</a></li>
+                                        <li><a href="#feedback">→ Feedback</a></li>
+                                    </ul>
+                                </div>
+                                <div className="col-lg-3">
+                                    <h5>Contact Info</h5>
+                                    <ul className="list-unstyled contact-info">
+                                        <li>
+                                            <i className="bi bi-envelope"></i>
+                                            enc.printsandcrafts@gmail.com
+                                        </li>
+                                        <li>
+                                            <i className="bi bi-facebook"></i>
+                                            enc.printsandcrafts
+                                        </li>
+                                        <li>
+                                            <i className="bi bi-instagram"></i>
+                                            enc.printsandcrafts
+                                        </li>
+                                        <li>
+                                            <i className="bi bi-geo-alt"></i>
+                                            MH Del Pilar Street, Bayan, Orani, Philippines
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div className="footer-bottom">
+                                <p className="mb-0">© 2024 ENC Prints and Crafts. All rights reserved.</p>
+                            </div>
+                        </div>
+                    </footer>
+                </div>
+            );
+        }
+
+        const root = ReactDOM.createRoot(document.getElementById('root'));
+        root.render(<Portfolio />);
+    </script>
+
+    <!-- Bootstrap JS Bundle -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
